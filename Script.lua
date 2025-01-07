@@ -24,8 +24,9 @@ ToggleButton.Name = "ToggleButton"
 ToggleButton.Parent = ScreenGui
 ToggleButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
 ToggleButton.Position = UDim2.new(0, 10, 0, 10)
-ToggleButton.Size = UDim2.new(0, 100, 0, 50)
-ToggleButton.Text = "Abrir Menu"
+ToggleButton.Size = UDim2.new(0, 50, 0, 25)  -- Diminuímos o tamanho
+ToggleButton.Text = "Menu"
+ToggleButton.TextSize = 14
 
 ActionFrame.Name = "ActionFrame"
 ActionFrame.Parent = MainFrame
@@ -56,8 +57,12 @@ ClickCheckbox.Position = UDim2.new(0, 10, 0, 70)
 ClickCheckbox.Size = UDim2.new(0, 20, 0, 20)
 ClickCheckbox.Text = "Auto Click"
 
--- Lógica do botão de toggle
+-- Variáveis para verificar o status
 local isMenuOpen = false
+local isJumping = false
+local isClicking = false
+
+-- Lógica do botão de toggle
 ToggleButton.MouseButton1Click:Connect(function()
     isMenuOpen = not isMenuOpen
     MainFrame.Visible = isMenuOpen
@@ -65,7 +70,6 @@ ToggleButton.MouseButton1Click:Connect(function()
 end)
 
 -- Lógica do JumpCheckbox (Fazer o personagem pular)
-local isJumping = false
 JumpCheckbox.MouseButton1Click:Connect(function()
     isJumping = not isJumping
     JumpCheckbox.BackgroundColor3 = isJumping and Color3.new(0, 1, 0) or Color3.new(0.5, 0.5, 0.5)
@@ -79,25 +83,53 @@ JumpCheckbox.MouseButton1Click:Connect(function()
 
     while isJumping do
         wait(1) -- Intervalo de tempo entre os pulos
-        humanoid:MoveTo(character.HumanoidRootPart.Position)  -- Garante que o personagem se mantenha em movimento
-        humanoid:ChangeState(Enum.HumanoidStateType.Physics) -- Estado físico para evitar que o personagem caia de alguma plataforma
         humanoid.Jump = true -- Faz o personagem pular
         print("Pulo realizado!")
     end
 end)
 
 -- Lógica do ClickCheckbox (Fazer o personagem clicar na tela)
-local isClicking = false
 ClickCheckbox.MouseButton1Click:Connect(function()
     isClicking = not isClicking
     ClickCheckbox.BackgroundColor3 = isClicking and Color3.new(0, 1, 0) or Color3.new(0.5, 0.5, 0.5)
 
     print("Auto Click " .. (isClicking and "ativado!" or "desativado!"))
 
-    -- Fica clicando na tela enquanto o Auto Click estiver ativo
+    -- Simula um clique na tela
+    local UserInputService = game:GetService("UserInputService")
+
     while isClicking do
         wait(0.5) -- Intervalo de tempo entre os cliques
-        game:GetService("UserInputService"):SendInput(input) -- Simula um clique
+        UserInputService.InputBegan:Fire({
+            UserInputType = Enum.UserInputType.MouseButton1,
+            Position = Vector2.new(math.random(0, 1920), math.random(0, 1080)),  -- posição aleatória na tela
+            UserInputState = Enum.UserInputState.Begin
+        })
         print("Clicando na tela...")
+    end
+end)
+
+-- Tornando o botão de abrir menu móvel
+local dragging = false
+local dragInput, dragStart, startPos
+
+ToggleButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = ToggleButton.Position
+    end
+end)
+
+ToggleButton.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+ToggleButton.InputChanged:Connect(function(input)
+    if dragging then
+        local delta = input.Position - dragStart
+        ToggleButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
