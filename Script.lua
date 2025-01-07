@@ -1,80 +1,113 @@
--- Adicionando um print para verificar se o script foi carregado
-print("Script carregado com sucesso!")
+-- Adicionando o print para verificar se o script foi carregado
+print("Hub carregado com sucesso!")
 
--- Configuração da Interface
+-- Criando a interface
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local ToggleButton = Instance.new("TextButton")
 local ActionFrame = Instance.new("Frame")
 local JumpCheckbox = Instance.new("TextButton")
 local ClickCheckbox = Instance.new("TextButton")
+local TitleLabel = Instance.new("TextLabel")
 local ActionLabel = Instance.new("TextLabel")
 
--- Propriedades básicas
+-- Propriedades da interface
 ScreenGui.Parent = game.CoreGui
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
-MainFrame.Size = UDim2.new(0, 200, 0, 150)
+MainFrame.BackgroundColor3 = Color3.fromRGB(34, 34, 34)  -- Fundo escuro
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
+MainFrame.Size = UDim2.new(0, 300, 0, 400)
 MainFrame.Visible = false
+MainFrame.BorderRadius = UDim.new(0, 12)  -- Bordas arredondadas
 
+-- Estilo do botão de abrir/fechar menu
 ToggleButton.Name = "ToggleButton"
 ToggleButton.Parent = ScreenGui
-ToggleButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  -- Cor do botão
 ToggleButton.Position = UDim2.new(0, 10, 0, 10)
-ToggleButton.Size = UDim2.new(0, 50, 0, 25)  -- Diminuímos o tamanho
-ToggleButton.Text = "Menu"
-ToggleButton.TextSize = 14
+ToggleButton.Size = UDim2.new(0, 60, 0, 30)
+ToggleButton.Text = "Abrir"
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.TextSize = 16
+ToggleButton.Font = Enum.Font.GothamBold
 
+-- Adicionando o título do Hub
+TitleLabel.Name = "TitleLabel"
+TitleLabel.Parent = MainFrame
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Position = UDim2.new(0.5, -75, 0, 10)
+TitleLabel.Size = UDim2.new(0, 150, 0, 30)
+TitleLabel.Text = "Blox Hub"
+TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleLabel.TextSize = 20
+TitleLabel.TextStrokeTransparency = 0.5
+TitleLabel.Font = Enum.Font.GothamBold
+
+-- Ação do painel
 ActionFrame.Name = "ActionFrame"
 ActionFrame.Parent = MainFrame
-ActionFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-ActionFrame.Position = UDim2.new(0, 10, 0, 40)
-ActionFrame.Size = UDim2.new(0, 180, 0, 100)
+ActionFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ActionFrame.Position = UDim2.new(0, 10, 0, 50)
+ActionFrame.Size = UDim2.new(0, 280, 0, 340)
+ActionFrame.BorderRadius = UDim.new(0, 8)  -- Bordas arredondadas
 
+-- Título da seção de ações
 ActionLabel.Name = "ActionLabel"
 ActionLabel.Parent = ActionFrame
 ActionLabel.BackgroundTransparency = 1
 ActionLabel.Position = UDim2.new(0, 10, 0, 10)
-ActionLabel.Size = UDim2.new(0, 160, 0, 20)
+ActionLabel.Size = UDim2.new(0, 260, 0, 20)
 ActionLabel.Text = "Ações"
-ActionLabel.TextColor3 = Color3.new(1, 1, 1)
+ActionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 ActionLabel.TextSize = 16
+ActionLabel.Font = Enum.Font.Gotham
 
+-- Checkbox de pular
 JumpCheckbox.Name = "JumpCheckbox"
 JumpCheckbox.Parent = ActionFrame
-JumpCheckbox.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
-JumpCheckbox.Position = UDim2.new(0, 10, 0, 40)
-JumpCheckbox.Size = UDim2.new(0, 20, 0, 20)
-JumpCheckbox.Text = "Pular"
+JumpCheckbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+JumpCheckbox.Position = UDim2.new(0, 10, 0, 50)
+JumpCheckbox.Size = UDim2.new(0, 260, 0, 30)
+JumpCheckbox.Text = "Pular Automaticamente"
+JumpCheckbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+JumpCheckbox.TextSize = 14
+JumpCheckbox.Font = Enum.Font.Gotham
+JumpCheckbox.TextButtonMode = Enum.TextButtonMode.Button
+JumpCheckbox.BorderRadius = UDim.new(0, 5)
 
+-- Checkbox de Auto Click
 ClickCheckbox.Name = "ClickCheckbox"
 ClickCheckbox.Parent = ActionFrame
-ClickCheckbox.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
-ClickCheckbox.Position = UDim2.new(0, 10, 0, 70)
-ClickCheckbox.Size = UDim2.new(0, 20, 0, 20)
+ClickCheckbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ClickCheckbox.Position = UDim2.new(0, 10, 0, 90)
+ClickCheckbox.Size = UDim2.new(0, 260, 0, 30)
 ClickCheckbox.Text = "Auto Click"
+ClickCheckbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClickCheckbox.TextSize = 14
+ClickCheckbox.Font = Enum.Font.Gotham
+ClickCheckbox.TextButtonMode = Enum.TextButtonMode.Button
+ClickCheckbox.BorderRadius = UDim.new(0, 5)
 
--- Variáveis para verificar o status
+-- Variáveis de controle
 local isMenuOpen = false
 local isJumping = false
 local isClicking = false
 
--- Lógica do botão de toggle
+-- Ação do botão de toggle (Abrir/Fechar o menu)
 ToggleButton.MouseButton1Click:Connect(function()
     isMenuOpen = not isMenuOpen
     MainFrame.Visible = isMenuOpen
+    ToggleButton.Text = isMenuOpen and "Fechar" or "Abrir"
     print("Menu " .. (isMenuOpen and "aberto" or "fechado"))
 end)
 
--- Lógica do JumpCheckbox (Fazer o personagem pular)
+-- Função do pulo automático
 JumpCheckbox.MouseButton1Click:Connect(function()
     isJumping = not isJumping
-    JumpCheckbox.BackgroundColor3 = isJumping and Color3.new(0, 1, 0) or Color3.new(0.5, 0.5, 0.5)
-
-    print("Pular " .. (isJumping and "ativado!" or "desativado!"))
+    JumpCheckbox.BackgroundColor3 = isJumping and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(60, 60, 60)
+    print("Pulo automático " .. (isJumping and "ativado" or "desativado"))
 
     -- Faz o personagem pular enquanto o AutoFarm estiver ativo
     local player = game.Players.LocalPlayer
@@ -82,34 +115,33 @@ JumpCheckbox.MouseButton1Click:Connect(function()
     local humanoid = character:WaitForChild("Humanoid")
 
     while isJumping do
-        wait(1) -- Intervalo de tempo entre os pulos
-        humanoid.Jump = true -- Faz o personagem pular
+        wait(1)  -- Intervalo de tempo entre os pulos
+        humanoid.Jump = true  -- Faz o personagem pular
         print("Pulo realizado!")
     end
 end)
 
--- Lógica do ClickCheckbox (Fazer o personagem clicar na tela)
+-- Função de Auto Click
 ClickCheckbox.MouseButton1Click:Connect(function()
     isClicking = not isClicking
-    ClickCheckbox.BackgroundColor3 = isClicking and Color3.new(0, 1, 0) or Color3.new(0.5, 0.5, 0.5)
+    ClickCheckbox.BackgroundColor3 = isClicking and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(60, 60, 60)
+    print("Auto Click " .. (isClicking and "ativado" or "desativado"))
 
-    print("Auto Click " .. (isClicking and "ativado!" or "desativado!"))
-
-    -- Simula um clique na tela
+    -- Simula o auto click a cada 0.5 segundos
     local UserInputService = game:GetService("UserInputService")
 
     while isClicking do
-        wait(0.5) -- Intervalo de tempo entre os cliques
+        wait(0.5)  -- Intervalo de tempo entre os cliques
         UserInputService.InputBegan:Fire({
             UserInputType = Enum.UserInputType.MouseButton1,
-            Position = Vector2.new(math.random(0, 1920), math.random(0, 1080)),  -- posição aleatória na tela
+            Position = Vector2.new(math.random(0, 1920), math.random(0, 1080)),  -- Posição aleatória na tela
             UserInputState = Enum.UserInputState.Begin
         })
         print("Clicando na tela...")
     end
 end)
 
--- Tornando o botão de abrir menu móvel
+-- Tornando o botão de abrir o menu móvel
 local dragging = false
 local dragInput, dragStart, startPos
 
@@ -133,3 +165,4 @@ ToggleButton.InputChanged:Connect(function(input)
         ToggleButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
+
