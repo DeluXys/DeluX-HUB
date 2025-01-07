@@ -67,11 +67,27 @@ AutoFarmCheckbox.MouseButton1Click:Connect(function()
     if isAutoFarmActive then
         -- Iniciando a simulação de AutoFarm
         print("Iniciando Auto Farm...")
-        -- Lógica do Auto Farm (Aqui você coloca sua função de farm)
+
+        -- Obtendo o personagem do jogador
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+        local target = game.Workspace:WaitForChild("NPC")  -- Aqui você pode definir o NPC como alvo para o farm
+
+        -- Movendo o personagem em direção ao NPC
         while isAutoFarmActive do
             wait(1)
             print("Farmando níveis...")
-            -- Aqui você pode adicionar a lógica de farm, como atacar NPCs ou coletar itens.
+
+            -- Move o personagem até o alvo (NPC)
+            humanoid:MoveTo(target.HumanoidRootPart.Position)
+
+            -- Verifica se o personagem chegou perto o suficiente do alvo para atacar
+            if (target.HumanoidRootPart.Position - character.HumanoidRootPart.Position).Magnitude < 5 then
+                -- Atacar o NPC (simulando um ataque)
+                print("Atacando o NPC...")
+                target:FindFirstChild("Humanoid"):TakeDamage(10) -- Exemplo de dano no NPC
+            end
         end
     end
 end)
