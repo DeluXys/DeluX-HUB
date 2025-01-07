@@ -1,4 +1,4 @@
--- Adicionando um print para debug
+-- Adicionando um print para verificar se o script foi carregado
 print("Script carregado com sucesso!")
 
 -- Configuração da Interface
@@ -53,6 +53,7 @@ local isMenuOpen = false
 ToggleButton.MouseButton1Click:Connect(function()
     isMenuOpen = not isMenuOpen
     MainFrame.Visible = isMenuOpen
+    print("Menu " .. (isMenuOpen and "aberto" or "fechado"))
 end)
 
 -- Lógica do Auto Farm Checkbox
@@ -61,15 +62,16 @@ AutoFarmCheckbox.MouseButton1Click:Connect(function()
     isAutoFarmActive = not isAutoFarmActive
     AutoFarmCheckbox.BackgroundColor3 = isAutoFarmActive and Color3.new(0, 1, 0) or Color3.new(0.5, 0.5, 0.5)
 
+    print("AutoFarm " .. (isAutoFarmActive and "ativado!" or "desativado!"))
+
     if isAutoFarmActive then
-        print("Auto Farm iniciado!")
-        -- Lógica de Auto Farm
+        -- Iniciando a simulação de AutoFarm
+        print("Iniciando Auto Farm...")
+        -- Lógica do Auto Farm (Aqui você coloca sua função de farm)
         while isAutoFarmActive do
-            -- Exemplo de função (você pode implementar seu Auto Farm aqui)
             wait(1)
             print("Farmando níveis...")
+            -- Aqui você pode adicionar a lógica de farm, como atacar NPCs ou coletar itens.
         end
-    else
-        print("Auto Farm desativado!")
     end
 end)
