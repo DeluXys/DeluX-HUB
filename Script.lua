@@ -1,7 +1,4 @@
--- Adicionando o print para verificar se o script foi carregado
-print("Hub carregado com sucesso!")
-
--- Criando a interface
+-- Criando a interface do usuário (GUI)
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local ToggleButton = Instance.new("TextButton")
@@ -16,16 +13,16 @@ ScreenGui.Parent = game.CoreGui
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(34, 34, 34)  -- Fundo escuro
+MainFrame.BackgroundColor3 = Color3.fromRGB(34, 34, 34)  -- Cor de fundo
 MainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
 MainFrame.Size = UDim2.new(0, 300, 0, 400)
 MainFrame.Visible = false
 MainFrame.BorderRadius = UDim.new(0, 12)  -- Bordas arredondadas
 
--- Estilo do botão de abrir/fechar menu
+-- Botão para abrir/fechar o menu
 ToggleButton.Name = "ToggleButton"
 ToggleButton.Parent = ScreenGui
-ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  -- Cor do botão
+ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 ToggleButton.Position = UDim2.new(0, 10, 0, 10)
 ToggleButton.Size = UDim2.new(0, 60, 0, 30)
 ToggleButton.Text = "Abrir"
@@ -33,7 +30,7 @@ ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ToggleButton.TextSize = 16
 ToggleButton.Font = Enum.Font.GothamBold
 
--- Adicionando o título do Hub
+-- Título do Hub
 TitleLabel.Name = "TitleLabel"
 TitleLabel.Parent = MainFrame
 TitleLabel.BackgroundTransparency = 1
@@ -45,13 +42,13 @@ TitleLabel.TextSize = 20
 TitleLabel.TextStrokeTransparency = 0.5
 TitleLabel.Font = Enum.Font.GothamBold
 
--- Ação do painel
+-- Ações do painel
 ActionFrame.Name = "ActionFrame"
 ActionFrame.Parent = MainFrame
 ActionFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 ActionFrame.Position = UDim2.new(0, 10, 0, 50)
 ActionFrame.Size = UDim2.new(0, 280, 0, 340)
-ActionFrame.BorderRadius = UDim.new(0, 8)  -- Bordas arredondadas
+ActionFrame.BorderRadius = UDim.new(0, 8)
 
 -- Título da seção de ações
 ActionLabel.Name = "ActionLabel"
@@ -64,7 +61,7 @@ ActionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 ActionLabel.TextSize = 16
 ActionLabel.Font = Enum.Font.Gotham
 
--- Checkbox de pular
+-- Botão de Pular Automático
 JumpCheckbox.Name = "JumpCheckbox"
 JumpCheckbox.Parent = ActionFrame
 JumpCheckbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
@@ -77,7 +74,7 @@ JumpCheckbox.Font = Enum.Font.Gotham
 JumpCheckbox.TextButtonMode = Enum.TextButtonMode.Button
 JumpCheckbox.BorderRadius = UDim.new(0, 5)
 
--- Checkbox de Auto Click
+-- Botão de Auto Click
 ClickCheckbox.Name = "ClickCheckbox"
 ClickCheckbox.Parent = ActionFrame
 ClickCheckbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
@@ -95,7 +92,7 @@ local isMenuOpen = false
 local isJumping = false
 local isClicking = false
 
--- Ação do botão de toggle (Abrir/Fechar o menu)
+-- Função para abrir/fechar o menu
 ToggleButton.MouseButton1Click:Connect(function()
     isMenuOpen = not isMenuOpen
     MainFrame.Visible = isMenuOpen
@@ -103,7 +100,7 @@ ToggleButton.MouseButton1Click:Connect(function()
     print("Menu " .. (isMenuOpen and "aberto" or "fechado"))
 end)
 
--- Função do pulo automático
+-- Função de pulo automático
 JumpCheckbox.MouseButton1Click:Connect(function()
     isJumping = not isJumping
     JumpCheckbox.BackgroundColor3 = isJumping and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(60, 60, 60)
@@ -146,7 +143,7 @@ local dragging = false
 local dragInput, dragStart, startPos
 
 ToggleButton.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    if input.UserInputType == Enum.UserInputType.Touch then
         dragging = true
         dragStart = input.Position
         startPos = ToggleButton.Position
@@ -154,15 +151,14 @@ ToggleButton.InputBegan:Connect(function(input)
 end)
 
 ToggleButton.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    if input.UserInputType == Enum.UserInputType.Touch then
         dragging = false
     end
 end)
 
 ToggleButton.InputChanged:Connect(function(input)
-    if dragging then
+    if dragging and input.UserInputType == Enum.UserInputType.Touch then
         local delta = input.Position - dragStart
         ToggleButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
-
